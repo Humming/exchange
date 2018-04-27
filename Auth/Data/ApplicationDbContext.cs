@@ -20,6 +20,8 @@ namespace Auth.Data
         //public DbSet<Wallet> Wallets { get; set; }
 
         public DbSet<Bid> Bids { get; set; }
+        public DbSet<Deposit> Deposits { get; set; }
+        public DbSet<Auth.Models.Wallet> Wallets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,6 +31,6 @@ namespace Auth.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<Auth.Models.Wallet> Wallets { get; set; }
+        
     }
 }

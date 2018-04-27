@@ -20,6 +20,11 @@ namespace Auth.Views.Manage
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string CreateWallet => "CreateWallet";
+        public static string Deposit => "Deposit";
+        public static string DepositHistory => "DepositHistory";
+
+        public static string DepositNavClass(ViewContext viewContext) => PageNavClass(viewContext, Deposit);
+        public static string DepositHistoryNavClass(ViewContext viewContext) => PageNavClass(viewContext, DepositHistory);
 
         public static string CreateWalletNavClass(ViewContext viewContext) => PageNavClass(viewContext, CreateWallet);
 

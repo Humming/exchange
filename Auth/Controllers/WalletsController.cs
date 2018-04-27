@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,6 +26,7 @@ namespace Auth.Controllers
         // GET: Wallets
         public async Task<IActionResult> Index()
         {
+            //change to my wallets
             return View(await _context.Wallets.ToListAsync());
         }
 
@@ -62,7 +64,7 @@ namespace Auth.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(wallet);
-                var me = _context.Users.Find(User);
+                var me = await _context.Users.FirstOrDefaultAsync(x=>x.UserName == User.Identity.Name);
                 me.Wallet = wallet;
                 
                 await _context.SaveChangesAsync();

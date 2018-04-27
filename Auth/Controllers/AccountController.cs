@@ -361,7 +361,8 @@ namespace Auth.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                var emailconfirmed = await this._userManager.IsEmailConfirmedAsync(user);
+                if (user == null || !emailconfirmed)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToAction(nameof(ForgotPasswordConfirmation));

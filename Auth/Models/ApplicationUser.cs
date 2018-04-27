@@ -9,6 +9,7 @@ namespace Auth.Models
     public class ApplicationUser : IdentityUser
     {
         public Wallet Wallet { get; set; }
+        public Deposit Deposit { get; set; }
                 
         
     }

@@ -11,9 +11,10 @@ using System;
 namespace Auth.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180427140549_AddDeposit")]
+    partial class AddDeposit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +30,6 @@ namespace Auth.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<int?>("DepositId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -63,8 +62,6 @@ namespace Auth.Data.Migrations
                     b.Property<int?>("WalletId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepositId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -239,10 +236,6 @@ namespace Auth.Data.Migrations
 
             modelBuilder.Entity("Auth.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Auth.Models.Deposit", "Deposit")
-                        .WithMany()
-                        .HasForeignKey("DepositId");
-
                     b.HasOne("Auth.Models.Wallet", "Wallet")
                         .WithMany()
                         .HasForeignKey("WalletId");

@@ -15,6 +15,12 @@ namespace Auth.Models
             this.Balance += amount;
         }
 
+
+        public void Deposit(Deposit deposit)
+        {
+
+        }
+
         public bool IsValid()
         {
             return Balance > 0;
