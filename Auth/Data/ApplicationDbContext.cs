@@ -16,9 +16,7 @@ namespace Auth.Data
             
         }
 
-
-        //public DbSet<Wallet> Wallets { get; set; }
-
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Deposit> Deposits { get; set; }
         public DbSet<Auth.Models.Wallet> Wallets { get; set; }

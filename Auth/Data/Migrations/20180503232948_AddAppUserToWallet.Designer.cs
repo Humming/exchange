@@ -11,8 +11,8 @@ using System;
 namespace Auth.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180427141659_AddDepositToUser")]
-    partial class AddDepositToUser
+    [Migration("20180503232948_AddAppUserToWallet")]
+    partial class AddAppUserToWallet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,8 +30,6 @@ namespace Auth.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<int?>("DepositId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -61,11 +59,7 @@ namespace Auth.Data.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<int?>("WalletId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("DepositId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -74,8 +68,6 @@ namespace Auth.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("WalletId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -116,16 +108,30 @@ namespace Auth.Data.Migrations
                     b.ToTable("Deposits");
                 });
 
+            modelBuilder.Entity("Auth.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("Auth.Models.Wallet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationUserId");
 
                     b.Property<decimal>("Balance");
 
                     b.Property<Guid>("WalletIdentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Wallets");
                 });
@@ -238,17 +244,6 @@ namespace Auth.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Auth.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Auth.Models.Deposit", "Deposit")
-                        .WithMany()
-                        .HasForeignKey("DepositId");
-
-                    b.HasOne("Auth.Models.Wallet", "Wallet")
-                        .WithMany()
-                        .HasForeignKey("WalletId");
-                });
-
             modelBuilder.Entity("Auth.Models.Bid", b =>
                 {
                     b.HasOne("Auth.Models.ApplicationUser", "User")
@@ -259,8 +254,15 @@ namespace Auth.Data.Migrations
             modelBuilder.Entity("Auth.Models.Deposit", b =>
                 {
                     b.HasOne("Auth.Models.Wallet", "Wallet")
-                        .WithMany()
+                        .WithMany("Deposits")
                         .HasForeignKey("WalletId");
+                });
+
+            modelBuilder.Entity("Auth.Models.Wallet", b =>
+                {
+                    b.HasOne("Auth.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Wallets")
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

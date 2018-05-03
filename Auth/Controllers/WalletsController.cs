@@ -63,9 +63,10 @@ namespace Auth.Controllers
         {
             if (ModelState.IsValid)
             {
+                var me = await _context.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
+
+                wallet.ApplicationUserId = me.Id;
                 _context.Add(wallet);
-                var me = await _context.Users.FirstOrDefaultAsync(x=>x.UserName == User.Identity.Name);
-                me.Wallet = wallet;
                 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Create));

@@ -19,6 +19,8 @@
                 <label asp-for="Amount" class="control-label"></label>
                 <input asp-for="Amount" class="form-control" value=""/>
                 <span asp-validation-for="Amount" class="text-danger"></span>
+
+                <input asp-for="Wallet" value="Wallet.WalletIdentifier" readonly="readonly" />
             </div>
 
             <div class="form-group">

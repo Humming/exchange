@@ -8,9 +8,7 @@ namespace Auth.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
-        public Wallet Wallet { get; set; }
-        public Deposit Deposit { get; set; }
-                
-        
+        public virtual ICollection<Wallet> Wallets { get; set; }
+
     }
 }

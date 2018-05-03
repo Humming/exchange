@@ -24,9 +24,9 @@ namespace Auth.Controllers
 
         public IActionResult Deposit()
         {
-            var me = _context.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            var me = _context.Users.Include(y=> y.Wallets).FirstOrDefault(x => x.UserName == User.Identity.Name);
             var deposit = new Deposit();
-            deposit.Wallet = me.Wallet;
+            deposit.Wallet = me.Wallets.FirstOrDefault();
             //consider saving deposit wallit id somehow.
             return View(deposit);
         }
@@ -51,8 +51,8 @@ namespace Auth.Controllers
             if (ModelState.IsValid)
             {
                 var me = await _context.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
-                deposit.Wallet = me.Wallet;
-                me.Wallet.Deposit(deposit);
+                deposit.Wallet = me.Wallets.FirstOrDefault();
+                deposit.Wallet.Deposit(deposit.Amount);
 
                 await this._context.AddAsync(deposit);
                 
