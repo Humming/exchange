@@ -34,9 +34,14 @@ namespace Auth.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //var me = await this._context.Users.FindAsync(User);
+            var me = await this._context.Users.Include(x => x.Wallets).FirstOrDefaultAsync(y => y.UserName == User.Identity.Name);
+
+            var d = this._context.Wallets.Include(x => x.Deposits).SelectMany(y=>y.Deposits);
             //change to my deposits
-            return View(await this._context.Deposits.ToListAsync());
+            /*await this._context.Deposits.Include(x=>x.Wallet).ToListAsync()*/
+            /*me.Wallets.Select(x=>x.Deposits);*/
+            var deposits = d.AsEnumerable<Deposit>();
+            return base.View(deposits);
         }
 
         [HttpPost]
@@ -50,14 +55,14 @@ namespace Auth.Controllers
             }
             if (ModelState.IsValid)
             {
-                var me = await _context.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
+                var me = await _context.Users.Include(y=>y.Wallets).FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
                 deposit.Wallet = me.Wallets.FirstOrDefault();
                 deposit.Wallet.Deposit(deposit.Amount);
 
                 await this._context.AddAsync(deposit);
                 
                 await this._context.SaveChangesAsync();
-                return RedirectToAction(nameof(Deposit));
+                return RedirectToAction(nameof(Index));
             }
 
             return View(deposit);
