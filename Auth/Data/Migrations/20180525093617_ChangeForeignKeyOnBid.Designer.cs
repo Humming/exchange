@@ -11,9 +11,10 @@ using System;
 namespace Auth.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180525093617_ChangeForeignKeyOnBid")]
+    partial class ChangeForeignKeyOnBid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,8 +86,6 @@ namespace Auth.Data.Migrations
                     b.Property<string>("Pair");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Bids");
                 });
@@ -241,13 +240,6 @@ namespace Auth.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Auth.Models.Bid", b =>
-                {
-                    b.HasOne("Auth.Models.ApplicationUser")
-                        .WithMany("Bids")
-                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Auth.Models.Deposit", b =>

@@ -8,6 +8,7 @@
 #endregion
 
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Auth.Models
 {
@@ -16,7 +17,8 @@ namespace Auth.Models
         public int Id { get; set; }
         public DateTime CreatedOn { get; set; }
         public decimal Amount { get; set; }
-        public ApplicationUser User { get; set; }
+        [ForeignKey("Id")]
+        public string ApplicationUserId { get; set; }
 
         public string Pair { get; set; } = "xbt/usd";
     }

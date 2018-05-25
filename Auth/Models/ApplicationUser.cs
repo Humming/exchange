@@ -9,6 +9,7 @@ namespace Auth.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual ICollection<Wallet> Wallets { get; set; }
+        public virtual ICollection<Bid> Bids {get; set; }
 
     }
 }

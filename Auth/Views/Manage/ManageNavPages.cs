@@ -22,6 +22,7 @@ namespace Auth.Views.Manage
         public static string CreateWallet => "CreateWallet";
         public static string Deposit => "Deposit";
         public static string DepositHistory => "DepositHistory";
+        public static string Exchange => "Exchange";
 
         public static string DepositNavClass(ViewContext viewContext) => PageNavClass(viewContext, Deposit);
         public static string DepositHistoryNavClass(ViewContext viewContext) => PageNavClass(viewContext, DepositHistory);
@@ -43,5 +44,8 @@ namespace Auth.Views.Manage
         }
 
         public static void AddActivePage(this ViewDataDictionary viewData, string activePage) => viewData[ActivePageKey] = activePage;
+
+
+        public static string ExchangeNavClass(ViewContext viewContext) => PageNavClass(viewContext, Exchange);
     }
 }
